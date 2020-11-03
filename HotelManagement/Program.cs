@@ -25,6 +25,9 @@ namespace HotelReservationSystem
                 Console.Write("Enter Regular Weekend Rate : ");
                 hotel.weekendRatesRegular = Convert.ToInt32(Console.ReadLine());
 
+                Console.Write("Enter Hotel Rating (5 being best, 1 being worst) : ");
+                hotel.weekendRatesRegular = Convert.ToInt32(Console.ReadLine());
+
                 hotelReservation.AddHotel(hotel);
 
                 Console.WriteLine("Wanna add more hotels?(yes/no)");
@@ -34,7 +37,7 @@ namespace HotelReservationSystem
             FindCheapest(hotelReservation);
             
         }
-        //UC2            
+        //UC2 - UC4           
         public static void FindCheapest(HotelReservation hotelReservation)
         {
             Console.Write("Enter the date range : ");
@@ -53,7 +56,7 @@ namespace HotelReservationSystem
             }
             catch
             {
-                Console.Write("Enter the correct date range : ");
+                Console.Write("Enter the correct date range \n");
                 FindCheapest(hotelReservation);
             }
         }
