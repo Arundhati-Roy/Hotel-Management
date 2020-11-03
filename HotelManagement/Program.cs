@@ -1,12 +1,15 @@
 ﻿using System;
 
-namespace HotelManagement
+namespace HotelReservationSystem
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Hotel reservation System!");
+            Console.WriteLine("Welcome to Hotel Reservation System!");
+
+            var hotelReservation = new HotelReservation();
+            hotelReservation.InitializeConsoleIO();
         }
     }
 }
