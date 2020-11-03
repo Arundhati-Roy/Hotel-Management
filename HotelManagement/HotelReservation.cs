@@ -22,25 +22,7 @@ namespace HotelReservationSystem
             }
             hotels.Add(hotel.name, hotel);
         }
-/*
-        public Hotel FindCheapestHotel(DateTime startDate, DateTime endDate)
-        {
-            if (startDate > endDate)
-            {
-                Console.WriteLine("Start date cannot be greater than end date");
-            }
 
-            var cost = Int32.MaxValue;
-            Hotel cheapestHotel = new Hotel();
-            foreach (var hotel in hotels)
-            {
-                var temp = cost;
-                cost = Math.Min(cost, CalculateTotalCost(hotel.Value, startDate, endDate));
-                if (temp != cost)
-                    cheapestHotel = hotel.Value;
-            }
-            return cheapestHotel;
-        }*/
         public List<Hotel> FindCheapestHotels(DateTime startDate, DateTime endDate)
         {
             var cost = Int32.MaxValue;
@@ -78,6 +60,18 @@ namespace HotelReservationSystem
                     cost += weekdayRate;
             }
             return cost;
+        }
+        public List<Hotel> FindCheapestBestRatedHotel(DateTime startDate, DateTime endDate)
+        {
+            var cheapestHotels = FindCheapestHotels(startDate, endDate);
+            var cheapestBestRatedHotels = new List<Hotel>();
+            var maxRating = 0;
+            foreach (var hotel in cheapestHotels)
+                maxRating = Math.Max(maxRating, hotel.rating);
+            foreach (var hotel in cheapestHotels)
+                if (hotel.rating == maxRating)
+                    cheapestBestRatedHotels.Add(hotel);
+            return cheapestBestRatedHotels;
         }
     }
 }
