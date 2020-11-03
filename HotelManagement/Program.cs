@@ -8,25 +8,46 @@ namespace HotelReservationSystem
         {
             Console.WriteLine("Welcome to Hotel Reservation System!");
 
+            var hotelReservation = new HotelReservation();
+            bool val = true;
+            //Console.WriteLine("How many hotels do you want?");
+            //int n = Convert.ToInt32(Console.ReadLine());
+            while(val)
+            {
+                var hotel = new Hotel();
+                Console.Write("Enter Hotel Name : ");
+                hotel.name = Console.ReadLine();
+
+                Console.Write("Enter Regular Weekday Rate : ");
+                hotel.weekdayRatesRegular = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Enter Regular Weekend Rate : ");
+                hotel.weekendRatesRegular = Convert.ToInt32(Console.ReadLine());
+
+                hotelReservation.AddHotel(hotel);
+
+                Console.WriteLine("Wanna add more hotels?(yes/no)");
+                if (Console.ReadLine() == "no")
+                    val = false;
+            }
+
+            //UC2
             Console.Write("Enter the date range : ");
             var input = Console.ReadLine();
             string[] dates = input.Split(',');
-            var startDate = Convert.ToDateTime(dates[0]);
-            var endDate = Convert.ToDateTime(dates[1]);
-            var hotelReservation = new HotelReservation();
-            AddSampleHotels(hotelReservation);
-            var cheapestHotel = hotelReservation.FindCheapestHotel(startDate, endDate);
-            var cost = hotelReservation.CalculateTotalCost(cheapestHotel, startDate, endDate);
-            Console.WriteLine("{0}, Total Cost : {1}", cheapestHotel.name, cost);
-
-        }
-
-        public static void AddSampleHotels(HotelReservation hotelReservation)
-        {
-            hotelReservation.AddHotel(new Hotel { name = "Lakewood", weekdayRatesRegular = 110, weekendRatesRegular = 90 });
-            hotelReservation.AddHotel(new Hotel { name = "Bridgewood", weekdayRatesRegular = 160, weekendRatesRegular = 60 });
-            hotelReservation.AddHotel(new Hotel { name = "Ridgewood", weekdayRatesRegular = 220, weekendRatesRegular = 150 });
-
+            try
+            {
+                var startDate = Convert.ToDateTime(dates[0]);
+                var endDate = Convert.ToDateTime(dates[1]);
+                var cheapestHotel = hotelReservation.FindCheapestHotel(startDate, endDate);
+                var cost = hotelReservation.CalculateTotalCost(cheapestHotel, startDate, endDate);
+                Console.WriteLine("Hotel : {0}, Total Cost : {1}", cheapestHotel.name, cost);
+            }
+            catch
+            {
+                Console.Write("Enter the correct date range : ");
+            }
+            
         }
     }
 }
