@@ -5,35 +5,17 @@ namespace HotelReservationSystem
 {
     class Program
     {
+        public enum CustomerType { Regular,Reward};
+
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Hotel Reservation System!");
 
             var hotelReservation = new HotelReservation();
-            bool val = true;
-            //Console.WriteLine("How many hotels do you want?");
-            //int n = Convert.ToInt32(Console.ReadLine());
-            while(val)
-            {
-                var hotel = new Hotel();
-                Console.Write("Enter Hotel Name : ");
-                hotel.name = Console.ReadLine();
 
-                Console.Write("Enter Regular Weekday Rate : ");
-                hotel.weekdayRatesRegular = Convert.ToInt32(Console.ReadLine());
+            //AddHotelManually(hotelReservation);
+            AddSampleHotels(hotelReservation);
 
-                Console.Write("Enter Regular Weekend Rate : ");
-                hotel.weekendRatesRegular = Convert.ToInt32(Console.ReadLine());
-
-                Console.Write("Enter Hotel Rating (5 being best, 1 being worst) : ");
-                hotel.rating = Convert.ToInt32(Console.ReadLine());
-
-                hotelReservation.AddHotel(hotel);
-
-                Console.WriteLine("Wanna add more hotels?(yes/no)");
-                if (Console.ReadLine() == "no")
-                    val = false;
-            }
             FindCheapest(hotelReservation);
             FindCheapestBest(hotelReservation);
             FindBest(hotelReservation);
@@ -58,6 +40,51 @@ namespace HotelReservationSystem
             }
             */
         }
+        //UC1
+        public static HotelReservation AddHotelManually(HotelReservation hotelReservation)
+        {
+            bool val = true;
+            while (val)
+            {
+                var hotel = new Hotel();
+                Console.Write("Enter Hotel Name : ");
+                hotel.name = Console.ReadLine();
+
+                Console.Write("Enter Regular Weekday Rate : ");
+                hotel.weekdayRatesRegular = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Enter Regular Weekend Rate : ");
+                hotel.weekendRatesRegular = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Enter Loyalty Weekday Rate :  ");
+                hotel.weekdayRatesLoyalty = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Enter Loyalty Weekend Rate :  ");
+                hotel.weekendRatesLoyalty = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Enter Hotel Rating (5 being best, 1 being worst) : ");
+                hotel.rating = Convert.ToInt32(Console.ReadLine());
+
+                hotelReservation.AddHotel(hotel);
+
+                Console.WriteLine("Wanna add more hotels?(yes/no)");
+                if (Console.ReadLine() == "no")
+                    val = false;
+            }
+            return hotelReservation;
+        }
+
+        public static HotelReservation AddSampleHotels(HotelReservation hotelReservation)
+        {
+            hotelReservation.AddHotel(new Hotel { name = "Lakewood", weekdayRatesRegular = 110, weekendRatesRegular = 90, weekdayRatesLoyalty = 80, weekendRatesLoyalty = 80, rating = 3 });
+            hotelReservation.AddHotel(new Hotel { name = "Bridgewood", weekdayRatesRegular = 160, weekendRatesRegular = 60, weekdayRatesLoyalty = 110, weekendRatesLoyalty = 50, rating = 4 });
+            hotelReservation.AddHotel(new Hotel { name = "Ridgewood", weekdayRatesRegular = 220, weekendRatesRegular = 150, weekdayRatesLoyalty = 100, weekendRatesLoyalty = 40, rating = 5 });
+
+            return hotelReservation;
+
+        }
+
+
         //UC2 - UC4           
         public static void FindCheapest(HotelReservation hotelReservation)
         {
@@ -130,6 +157,15 @@ namespace HotelReservationSystem
                 Console.Write("Enter the correct date range \n");
                 FindCheapest(hotelReservation);
             }
+        }
+        //UC 9
+        public static CustomerType GetCustomerType(CustomerType customer)
+        {
+            Console.Write("Enter the type of Customer : ");
+            var cusType = Console.ReadLine().ToLower();
+            if (cusType != "regular" && cusType != "reward")
+                throw new HotelReservationException(ExceptionType.INVALID_CUSTOMER_TYPE, "Invalid Customer Type Entered");
+            return cusType == "regular" ? CustomerType.Regular : CustomerType.Reward;
         }
 
     }
