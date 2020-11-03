@@ -139,7 +139,7 @@ namespace HotelReservationSystem
         //UC7          
         public static void FindBest(HotelReservation hotelReservation, CustomerType ct)
         {
-            Console.WriteLine("Cheapest Best Rated Hotel");
+            Console.WriteLine("Best Rated Hotel");
             Console.Write("Enter the date range : ");
             var input = Console.ReadLine();
             string[] dates = input.Split(',');
