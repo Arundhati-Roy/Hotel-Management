@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static HotelReservationSystem.Program;
 
 namespace HotelReservationSystem
 {
     public class HotelReservation
     {
+        //public enum CustomerType { Regular, Reward };
+
         public Dictionary<string, Hotel> hotels;
 
         public HotelReservation()
@@ -23,7 +26,7 @@ namespace HotelReservationSystem
             hotels.Add(hotel.name, hotel);
         }
 
-        public List<Hotel> FindCheapestHotels(DateTime startDate, DateTime endDate)
+        public List<Hotel> FindCheapestHotels(DateTime startDate, DateTime endDate,CustomerType ct)
         {
             var cost = Int32.MaxValue;
             var cheapestHotels = new List<Hotel>();
@@ -37,21 +40,21 @@ namespace HotelReservationSystem
             foreach (var hotel in hotels)
             {
                 var temp = cost;
-                cost = Math.Min(cost, CalculateTotalCost(hotel.Value, startDate, endDate));
+                cost = Math.Min(cost, CalculateTotalCost(hotel.Value, startDate, endDate,ct));
 
             }
             foreach (var hotel in hotels)
             {
-                if (CalculateTotalCost(hotel.Value, startDate, endDate) == cost)
+                if (CalculateTotalCost(hotel.Value, startDate, endDate,ct) == cost)
                     cheapestHotels.Add(hotel.Value);
             }
             return cheapestHotels;
         }
-        public int CalculateTotalCost(Hotel hotel, DateTime startDate, DateTime endDate)
+        public int CalculateTotalCost(Hotel hotel, DateTime startDate, DateTime endDate,CustomerType ct)
         {
             var cost = 0;
-            var weekdayRate = hotel.weekdayRatesRegular;
-            var weekendRate = hotel.weekendRatesRegular;
+            var weekdayRate = ct == CustomerType.Regular ? hotel.weekdayRatesRegular : hotel.weekdayRatesLoyalty;
+            var weekendRate = ct == CustomerType.Regular ? hotel.weekendRatesRegular : hotel.weekendRatesLoyalty;
             for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
             {
                 if (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday)
@@ -61,11 +64,11 @@ namespace HotelReservationSystem
             }
             return cost;
         }
-        public List<Hotel> FindCheapestBestRatedHotel(DateTime startDate, DateTime endDate)
+        public List<Hotel> FindCheapestBestRatedHotel(DateTime startDate, DateTime endDate,CustomerType ct)
         {
-            var cheapestHotels = FindCheapestHotels(startDate, endDate);
+            var cheapestHotels = FindCheapestHotels(startDate, endDate,ct);
             var cheapestBestRatedHotels = new List<Hotel>();
-            var maxRating = 0;
+            var maxRating = 1;
             foreach (var hotel in cheapestHotels)
                 maxRating = Math.Max(maxRating, hotel.rating);
             foreach (var hotel in cheapestHotels)

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace HotelReservationSystem
 {
-    class Program
+    public class Program
     {
-        public enum CustomerType { Regular,Reward};
+        public enum CustomerType { Regular, Reward };
 
         static void Main(string[] args)
         {
@@ -13,12 +13,13 @@ namespace HotelReservationSystem
 
             var hotelReservation = new HotelReservation();
 
+            var cusType = GetCustomerType();
             //AddHotelManually(hotelReservation);
             AddSampleHotels(hotelReservation);
 
-            FindCheapest(hotelReservation);
-            FindCheapestBest(hotelReservation);
-            FindBest(hotelReservation);
+            FindCheapest(hotelReservation,cusType);
+            FindCheapestBest(hotelReservation,cusType);
+            FindBest(hotelReservation,cusType);
             /*Console.WriteLine("1.Cheapest or 2.Best cheapest or 3.Best Rated?");
             switch(Convert.ToInt32(Console.ReadLine()))
             {
@@ -40,6 +41,7 @@ namespace HotelReservationSystem
             }
             */
         }
+
         //UC1
         public static HotelReservation AddHotelManually(HotelReservation hotelReservation)
         {
@@ -86,7 +88,7 @@ namespace HotelReservationSystem
 
 
         //UC2 - UC4           
-        public static void FindCheapest(HotelReservation hotelReservation)
+        public static void FindCheapest(HotelReservation hotelReservation,CustomerType ct)
         {
             Console.WriteLine("Cheapest Hotel");
             Console.Write("Enter the date range : ");
@@ -96,22 +98,22 @@ namespace HotelReservationSystem
             {
                 var startDate = Convert.ToDateTime(dates[0]);
                 var endDate = Convert.ToDateTime(dates[1]);
-                var cheapestHotel = hotelReservation.FindCheapestHotels(startDate, endDate);
+                var cheapestHotel = hotelReservation.FindCheapestHotels(startDate, endDate,ct);
                 foreach (Hotel h in cheapestHotel)
                 {
-                    var cost = hotelReservation.CalculateTotalCost(h, startDate, endDate);
+                    var cost = hotelReservation.CalculateTotalCost(h, startDate, endDate,ct);
                     Console.WriteLine("Hotel : {0}, Total Cost : {1}", h.name, cost);
                 }
             }
             catch
             {
                 Console.Write("Enter the correct date range \n");
-                FindCheapest(hotelReservation);
+                FindCheapest(hotelReservation,ct);
             }
         }
 
-        //UC6          
-        public static void FindCheapestBest(HotelReservation hotelReservation)
+        //UC5 - UC6          
+        public static void FindCheapestBest(HotelReservation hotelReservation, CustomerType ct)
         {
             Console.WriteLine("Cheapest Best Rated Hotel");
             Console.Write("Enter the date range : ");
@@ -121,21 +123,21 @@ namespace HotelReservationSystem
             {
                 var startDate = Convert.ToDateTime(dates[0]);
                 var endDate = Convert.ToDateTime(dates[1]);
-                var cheapestHotel = hotelReservation.FindCheapestBestRatedHotel(startDate, endDate);
+                var cheapestHotel = hotelReservation.FindCheapestBestRatedHotel(startDate, endDate,ct);
                 foreach (Hotel h in cheapestHotel)
                 {
-                    var cost = hotelReservation.CalculateTotalCost(h, startDate, endDate);
+                    var cost = hotelReservation.CalculateTotalCost(h, startDate, endDate,ct);
                     Console.WriteLine("Hotel : {0}, Rating: {1}, Total Cost : {2}", h.name,h.rating, cost);
                 }
             }
             catch
             {
                 Console.Write("Enter the correct date range \n");
-                FindCheapest(hotelReservation);
+                FindCheapestBest(hotelReservation,ct);
             }
         }
         //UC7          
-        public static void FindBest(HotelReservation hotelReservation)
+        public static void FindBest(HotelReservation hotelReservation, CustomerType ct)
         {
             Console.WriteLine("Cheapest Best Rated Hotel");
             Console.Write("Enter the date range : ");
@@ -148,18 +150,18 @@ namespace HotelReservationSystem
                 var cheapestHotel = hotelReservation.FindBestRatedHotel(startDate, endDate);
                 foreach (Hotel h in cheapestHotel)
                 {
-                    var cost = hotelReservation.CalculateTotalCost(h, startDate, endDate);
+                    var cost = hotelReservation.CalculateTotalCost(h, startDate, endDate,ct);
                     Console.WriteLine("Hotel : {0}, Rating: {1}, Total Cost : {2}", h.name, h.rating, cost);
                 }
             }
             catch
             {
                 Console.Write("Enter the correct date range \n");
-                FindCheapest(hotelReservation);
+                FindBest(hotelReservation,ct);
             }
         }
         //UC 9
-        public static CustomerType GetCustomerType(CustomerType customer)
+        public static CustomerType GetCustomerType()
         {
             Console.Write("Enter the type of Customer : ");
             var cusType = Console.ReadLine().ToLower();
