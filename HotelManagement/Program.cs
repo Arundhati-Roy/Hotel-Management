@@ -36,7 +36,8 @@ namespace HotelReservationSystem
             }
             FindCheapest(hotelReservation);
             FindCheapestBest(hotelReservation);
-            /*Console.WriteLine("1.Cheapest or 2.Best cheapest?");
+            FindBest(hotelReservation);
+            /*Console.WriteLine("1.Cheapest or 2.Best cheapest or 3.Best Rated?");
             switch(Convert.ToInt32(Console.ReadLine()))
             {
                 case 1:
@@ -47,6 +48,11 @@ namespace HotelReservationSystem
                 case 2:
                     {
                         FindCheapestBest(hotelReservation);
+                        break;
+                    }
+                case 3:
+                    {
+                        FindBest(hotelReservation);
                         break;
                     }
             }
@@ -93,6 +99,30 @@ namespace HotelReservationSystem
                 {
                     var cost = hotelReservation.CalculateTotalCost(h, startDate, endDate);
                     Console.WriteLine("Hotel : {0}, Rating: {1}, Total Cost : {2}", h.name,h.rating, cost);
+                }
+            }
+            catch
+            {
+                Console.Write("Enter the correct date range \n");
+                FindCheapest(hotelReservation);
+            }
+        }
+        //UC7          
+        public static void FindBest(HotelReservation hotelReservation)
+        {
+            Console.WriteLine("Cheapest Best Rated Hotel");
+            Console.Write("Enter the date range : ");
+            var input = Console.ReadLine();
+            string[] dates = input.Split(',');
+            try
+            {
+                var startDate = Convert.ToDateTime(dates[0]);
+                var endDate = Convert.ToDateTime(dates[1]);
+                var cheapestHotel = hotelReservation.FindBestRatedHotel(startDate, endDate);
+                foreach (Hotel h in cheapestHotel)
+                {
+                    var cost = hotelReservation.CalculateTotalCost(h, startDate, endDate);
+                    Console.WriteLine("Hotel : {0}, Rating: {1}, Total Cost : {2}", h.name, h.rating, cost);
                 }
             }
             catch
