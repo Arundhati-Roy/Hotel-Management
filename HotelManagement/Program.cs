@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace HotelReservationSystem
 {
@@ -30,8 +31,12 @@ namespace HotelReservationSystem
                 if (Console.ReadLine() == "no")
                     val = false;
             }
-
-            //UC2
+            FindCheapest(hotelReservation);
+            
+        }
+        //UC2            
+        public static void FindCheapest(HotelReservation hotelReservation)
+        {
             Console.Write("Enter the date range : ");
             var input = Console.ReadLine();
             string[] dates = input.Split(',');
@@ -39,15 +44,18 @@ namespace HotelReservationSystem
             {
                 var startDate = Convert.ToDateTime(dates[0]);
                 var endDate = Convert.ToDateTime(dates[1]);
-                var cheapestHotel = hotelReservation.FindCheapestHotel(startDate, endDate);
-                var cost = hotelReservation.CalculateTotalCost(cheapestHotel, startDate, endDate);
-                Console.WriteLine("Hotel : {0}, Total Cost : {1}", cheapestHotel.name, cost);
+                var cheapestHotel = hotelReservation.FindCheapestHotels(startDate, endDate);
+                foreach (Hotel h in cheapestHotel)
+                {
+                    var cost = hotelReservation.CalculateTotalCost(h, startDate, endDate);
+                    Console.WriteLine("Hotel : {0}, Total Cost : {1}", h.name, cost);
+                }
             }
             catch
             {
                 Console.Write("Enter the correct date range : ");
+                FindCheapest(hotelReservation);
             }
-            
         }
     }
 }

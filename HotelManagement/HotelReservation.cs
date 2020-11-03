@@ -41,6 +41,28 @@ namespace HotelReservationSystem
             }
             return cheapestHotel;
         }
+        public List<Hotel> FindCheapestHotels(DateTime startDate, DateTime endDate)
+        {
+            if (startDate > endDate)
+            {
+                Console.WriteLine("Start date cannot be greater than end date");
+                return null;
+            }
+            var cost = Int32.MaxValue;
+            var cheapestHotels = new List<Hotel>();
+            foreach (var hotel in hotels)
+            {
+                var temp = cost;
+                cost = Math.Min(cost, CalculateTotalCost(hotel.Value, startDate, endDate));
+
+            }
+            foreach (var hotel in hotels)
+            {
+                if (CalculateTotalCost(hotel.Value, startDate, endDate) == cost)
+                    cheapestHotels.Add(hotel.Value);
+            }
+            return cheapestHotels;
+        }
         public int CalculateTotalCost(Hotel hotel, DateTime startDate, DateTime endDate)
         {
             var cost = 0;
