@@ -4,7 +4,6 @@ C:\Users\priyadarshini roy\source\repos\HotelManagement\HotelManagement\bin\Debu
 C:\Users\priyadarshini roy\source\repos\HotelManagement\HotelManagement\bin\Debug\netcoreapp3.1\HotelManagement.runtimeconfig.dev.json
 C:\Users\priyadarshini roy\source\repos\HotelManagement\HotelManagement\bin\Debug\netcoreapp3.1\HotelManagement.dll
 C:\Users\priyadarshini roy\source\repos\HotelManagement\HotelManagement\bin\Debug\netcoreapp3.1\HotelManagement.pdb
-C:\Users\priyadarshini roy\source\repos\HotelManagement\HotelManagement\obj\Debug\netcoreapp3.1\HotelManagement.csprojAssemblyReference.cache
 C:\Users\priyadarshini roy\source\repos\HotelManagement\HotelManagement\obj\Debug\netcoreapp3.1\HotelManagement.AssemblyInfoInputs.cache
 C:\Users\priyadarshini roy\source\repos\HotelManagement\HotelManagement\obj\Debug\netcoreapp3.1\HotelManagement.AssemblyInfo.cs
 C:\Users\priyadarshini roy\source\repos\HotelManagement\HotelManagement\obj\Debug\netcoreapp3.1\HotelManagement.csproj.CoreCompileInputs.cache

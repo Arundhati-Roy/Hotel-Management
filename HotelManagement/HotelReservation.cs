@@ -16,6 +16,10 @@ namespace HotelReservationSystem
             hotels = new Dictionary<string, Hotel>();
         }
 
+        /// <summary>
+        /// Adds the hotel.
+        /// </summary>
+        /// <param name="hotel">The hotel.</param>
         public void AddHotel(Hotel hotel)
         {
             if (hotels.ContainsKey(hotel.name))
@@ -26,6 +30,13 @@ namespace HotelReservationSystem
             hotels.Add(hotel.name, hotel);
         }
 
+        /// <summary>
+        /// Finds the cheapest hotels.
+        /// </summary>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <param name="ct">The ct.</param>
+        /// <returns></returns>
         public List<Hotel> FindCheapestHotels(DateTime startDate, DateTime endDate,CustomerType ct)
         {
             var cost = Int32.MaxValue;
@@ -50,6 +61,15 @@ namespace HotelReservationSystem
             }
             return cheapestHotels;
         }
+
+        /// <summary>
+        /// Calculates the total cost.
+        /// </summary>
+        /// <param name="hotel">The hotel.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <param name="ct">The ct.</param>
+        /// <returns></returns>
         public int CalculateTotalCost(Hotel hotel, DateTime startDate, DateTime endDate,CustomerType ct)
         {
             var cost = 0;
@@ -64,6 +84,14 @@ namespace HotelReservationSystem
             }
             return cost;
         }
+
+        /// <summary>
+        /// Finds the cheapest best rated hotel.
+        /// </summary>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <param name="ct">The ct.</param>
+        /// <returns></returns>
         public List<Hotel> FindCheapestBestRatedHotel(DateTime startDate, DateTime endDate,CustomerType ct)
         {
             var cheapestHotels = FindCheapestHotels(startDate, endDate,ct);
@@ -77,6 +105,12 @@ namespace HotelReservationSystem
             return cheapestBestRatedHotels;
         }
 
+        /// <summary>
+        /// Finds the best rated hotel.
+        /// </summary>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <returns></returns>
         public List<Hotel> FindBestRatedHotel(DateTime startDate, DateTime endDate)
         {
             var cheapestBestRatedHotels = new List<Hotel>();

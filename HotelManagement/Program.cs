@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace HotelReservationSystem
 {
     public class Program
     {
         public enum CustomerType { Regular, Reward };
-
+        
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Hotel Reservation System!");
 
             var hotelReservation = new HotelReservation();
-
+          
             var cusType = GetCustomerType();
             //AddHotelManually(hotelReservation);
             AddSampleHotels(hotelReservation);
@@ -43,6 +44,11 @@ namespace HotelReservationSystem
         }
 
         //UC1
+        /// <summary>
+        /// Adds Hotel manually
+        /// </summary>
+        /// <param name="hotelReservation"></param>
+        /// <returns></returns>
         public static HotelReservation AddHotelManually(HotelReservation hotelReservation)
         {
             bool val = true;
@@ -76,6 +82,11 @@ namespace HotelReservationSystem
             return hotelReservation;
         }
 
+        /// <summary>
+        /// Adds Sample Hotel
+        /// </summary>
+        /// <param name="hotelReservation"></param>
+        /// <returns></returns>
         public static HotelReservation AddSampleHotels(HotelReservation hotelReservation)
         {
             hotelReservation.AddHotel(new Hotel { name = "Lakewood", weekdayRatesRegular = 110, weekendRatesRegular = 90, weekdayRatesLoyalty = 80, weekendRatesLoyalty = 80, rating = 3 });
@@ -86,8 +97,12 @@ namespace HotelReservationSystem
 
         }
 
-
         //UC2 - UC4           
+        /// <summary>
+        /// Finds Cheapest Hotel
+        /// </summary>
+        /// <param name="hotelReservation"></param>
+        /// <param name="ct"></param>
         public static void FindCheapest(HotelReservation hotelReservation,CustomerType ct)
         {
             Console.WriteLine("Cheapest Hotel");
@@ -113,6 +128,11 @@ namespace HotelReservationSystem
         }
 
         //UC5 - UC6          
+        /// <summary>
+        /// Finds Best Rated Cheapest Hotel
+        /// </summary>
+        /// <param name="hotelReservation"></param>
+        /// <param name="ct"></param>
         public static void FindCheapestBest(HotelReservation hotelReservation, CustomerType ct)
         {
             Console.WriteLine("Cheapest Best Rated Hotel");
@@ -136,7 +156,13 @@ namespace HotelReservationSystem
                 FindCheapestBest(hotelReservation,ct);
             }
         }
-        //UC7          
+
+        //UC7 - UC8 
+        /// <summary>
+        /// Finds Best Rated Hotel
+        /// </summary>
+        /// <param name="hotelReservation"></param>
+        /// <param name="ct"></param>
         public static void FindBest(HotelReservation hotelReservation, CustomerType ct)
         {
             Console.WriteLine("Best Rated Hotel");
@@ -160,15 +186,43 @@ namespace HotelReservationSystem
                 FindBest(hotelReservation,ct);
             }
         }
-        //UC 9
+
+        //UC9 - UC10
+        /// <summary>
+        /// Gets Customer Type
+        /// </summary>
+        /// <returns></returns>
         public static CustomerType GetCustomerType()
         {
             Console.Write("Enter the type of Customer : ");
             var cusType = Console.ReadLine().ToLower();
-            if (cusType != "regular" && cusType != "reward")
+            try
+            {
+                if (!ValidateCustomerType(cusType))
+                    throw new HotelReservationException(ExceptionType.INVALID_CUSTOMER_TYPE, "Invalid Customer Type Entered");
+            }
+            catch
+            {
+                //Console.WriteLine("Enter Correct Customer Type(Regular or Loyalty)");
+                //GetCustomerType();
+
+                //For Testinng
                 throw new HotelReservationException(ExceptionType.INVALID_CUSTOMER_TYPE, "Invalid Customer Type Entered");
+            }
             return cusType == "regular" ? CustomerType.Regular : CustomerType.Reward;
         }
 
+        //UC-11 - UC-12 (Refactor 9/10)
+        /// <summary>
+        /// Validates Customer Type using Regex
+        /// </summary>
+        /// <param name="customerType"></param>
+        /// <returns></returns>
+        public static bool ValidateCustomerType(string customerType)
+        {
+            string rewardCustomerRegex = "^([Rr][Ee][Ww][Aa][Rr][Dd])$";
+            string regularCustomerRegex = "^([Rr][Ee][Gg][Uu][Ll][Aa][Rr])$";
+            return Regex.IsMatch(customerType, rewardCustomerRegex) || Regex.IsMatch(customerType, regularCustomerRegex);
+        }
     }
 }
